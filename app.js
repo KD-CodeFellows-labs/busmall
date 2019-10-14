@@ -4,18 +4,26 @@ var leftImageEl = document.getElementById('left');
 var middleImageEl = document.getElementById('middle');
 var rightImageEl = document.getElementById('right');
 var containerEl = document.getElementById('image_container');
+var tallyListEl = document.getElementById('tally');
 
-leftImageEl.src = 'img/bag.jpg';
-leftImageEl.name = 'bag.jpg';
-leftImageEl.title = 'bag';
+// leftImageEl.src = 'img/bag.jpg';
+// leftImageEl.name = 'bag.jpg';
+// leftImageEl.title = 'bag';
 
-middleImageEl.src = 'img/pen.jpg';
-middleImageEl.name = 'pen.jpg';
-middleImageEl.title = 'pen';
+// middleImageEl.src = 'img/pen.jpg';
+// middleImageEl.name = 'pen.jpg';
+// middleImageEl.title = 'pen';
 
 rightImageEl.src = 'img/usb.jpg';
 rightImageEl.name = 'usb.jpg';
 rightImageEl.title = 'usb';
+
+function addElement(childElType, childContent, parentEl) {
+  var childElement = document.createElement(childElType);
+  childElement.textContent = childContent;
+  parentEl.appendChild(childElement);
+  return childElement;
+}
 
 var allProducts = [];
 
@@ -50,6 +58,10 @@ function renderProducts() {
   middleImageEl.src = allProducts[uniquePicsArray[1]].path;
   middleImageEl.name = allProducts[uniquePicsArray[1]].name;
   middleImageEl.title = allProducts[uniquePicsArray[1]].name;
+  // Build list
+  for ( var i = 0; i < allProducts.length; i++) {
+    addElement('li',`${allProducts[i].name}: views=${allProducts[i].views} : votes=${allProducts[i].votes}`,tallyListEl);
+  }
 }
 
 new Product('bag');
@@ -73,6 +85,8 @@ function handleClick() {
       allProducts[i].votes++;
     }
   }
+  var select = document.querySelector('#tally');
+  select.innerHTML = '';
   renderProducts();
 }
 
