@@ -8,5 +8,5 @@ section#image_container {
 }
 section#image_container img {
     display: inline-block;
-    width: 320px;
+    width: 30%;
 } 
