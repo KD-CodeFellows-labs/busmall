@@ -3,6 +3,7 @@
 var leftImageEl = document.getElementById('left');
 var middleImageEl = document.getElementById('middle');
 var rightImageEl = document.getElementById('right');
+var containerEl = document.getElementById('image_container');
 
 leftImageEl.src = 'img/bag.jpg';
 leftImageEl.name = 'bag.jpg';
@@ -18,19 +19,64 @@ rightImageEl.title = 'usb';
 
 var allProducts = [];
 
-// function Product(name) {
-//   this.name = name;
-//   this.path = `img/${name}.jpg`;
-//   this.views = 0;
-//   this.votes = 0;
-//   allProducts.push(this);
-// }
+function Product(name) {
+  this.name = name;
+  this.path = `img/${name}.jpg`;
+  this.views = 0;
+  this.votes = 0;
+  allProducts.push(this);
+}
 
-// function makeRandom() {
-//   return Math.floor(Math.random() * allProducts.length);
-// }
+function makeRandom() {
+  return Math.floor(Math.random() * allProducts.length);
+}
 
-// function renderProducts() {
-//     var uniquePicsArray
-// }
+function renderProducts() {
+  var uniquePicsArray = [];
+  uniquePicsArray[0] = makeRandom();
+  uniquePicsArray[1] = makeRandom();
+  uniquePicsArray[2] = makeRandom();
+
+  while(uniquePicsArray[0] === uniquePicsArray[1]) {
+    console.error('dup found rerolling!');
+    uniquePicsArray[1] = makeRandom();
+  }
+  allProducts[uniquePicsArray[0]].views++;
+  leftImageEl.src = allProducts[uniquePicsArray[0]].path;
+  leftImageEl.name = allProducts[uniquePicsArray[0]].name;
+  leftImageEl.title = allProducts[uniquePicsArray[0]].name;
+
+  allProducts[uniquePicsArray[1]].views++;
+  middleImageEl.src = allProducts[uniquePicsArray[1]].path;
+  middleImageEl.name = allProducts[uniquePicsArray[1]].name;
+  middleImageEl.title = allProducts[uniquePicsArray[1]].name;
+}
+
+new Product('bag');
+new Product('banana');
+new Product('bathroom');
+new Product('boots');
+new Product('breakfast');
+new Product('bubblegum');
+new Product('chair');
+new Product('cthulhu');
+new Product('dog-duck');
+new Product('pen');
+new Product('shark');
+new Product('usb');
+
+function handleClick() {
+  var chosenImage = event.target.title;
+  console.log('chosenImage: ',chosenImage);
+  for( var i = 0; i < allProducts.length; i++) {
+    if(allProducts[i].name === chosenImage) {
+      allProducts[i].votes++;
+    }
+  }
+  renderProducts();
+}
+
+containerEl.addEventListener('click', handleClick);
+
+renderProducts();
 

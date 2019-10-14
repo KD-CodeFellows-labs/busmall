@@ -1,0 +1,12 @@
+body {
+    width: 960px;
+    margin: 0 auto;
+	padding: 30px;
+}
+section#image_container {
+    white-space: nowrap;
+}
+section#image_container img {
+    display: inline-block;
+    width: 320px;
+} 
