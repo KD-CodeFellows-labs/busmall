@@ -10,3 +10,6 @@ section#image_container img {
     display: inline-block;
     width: 30%;
 } 
+#tally div {
+    font-weight: bolder;
+}

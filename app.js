@@ -6,17 +6,8 @@ var rightImageEl = document.getElementById('right');
 var containerEl = document.getElementById('image_container');
 var tallyListEl = document.getElementById('tally');
 
-// leftImageEl.src = 'img/bag.jpg';
-// leftImageEl.name = 'bag.jpg';
-// leftImageEl.title = 'bag';
-
-// middleImageEl.src = 'img/pen.jpg';
-// middleImageEl.name = 'pen.jpg';
-// middleImageEl.title = 'pen';
-
-// rightImageEl.src = 'img/usb.jpg';
-// rightImageEl.name = 'usb.jpg';
-// rightImageEl.title = 'usb';
+var myRounds = 5;
+var roundCount = myRounds;
 
 function addElement(childElType, childContent, parentEl) {
   var childElement = document.createElement(childElType);
@@ -87,9 +78,17 @@ new Product('bubblegum');
 new Product('chair');
 new Product('cthulhu');
 new Product('dog-duck');
+new Product('dragon');
 new Product('pen');
+new Product('pet-sweep');
+new Product('scissors');
 new Product('shark');
+new Product('sweep');
+new Product('tauntaun');
+new Product('unicorn');
 new Product('usb');
+new Product('water-can');
+new Product('wine-glass');
 
 function handleClick() {
   var chosenImage = event.target.title;
@@ -99,12 +98,26 @@ function handleClick() {
       allProducts[i].votes++;
     }
   }
-  var select = document.querySelector('#tally');
-  select.innerHTML = '';
-  renderProducts();
+  roundCount--;
+  if (roundCount <= 0) {
+    //Build end list
+    var select = document.querySelector('#tally');
+    select.innerHTML = '';
+    var image = document.querySelector('#image_container');
+    image.innerHTML = '';
+    addElement('div',`Results after ${myRounds} rounds:`,tallyListEl);
+    for ( var x = 0; x < allProducts.length; x++) {
+      addElement('li',`${allProducts[x].name}: views=${allProducts[x].views} : votes=${allProducts[x].votes}`,tallyListEl);
+    }
+  }
+  //
+  if (roundCount > 0) {
+    select = document.querySelector('#tally');
+    select.innerHTML = '';
+    renderProducts();
+  }
 }
 
 containerEl.addEventListener('click', handleClick);
 
 renderProducts();
-
