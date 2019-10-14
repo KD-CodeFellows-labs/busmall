@@ -6,6 +6,8 @@ var rightImageEl = document.getElementById('right');
 var containerEl = document.getElementById('image_container');
 var tallyListEl = document.getElementById('tally');
 
+var productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
+
 var myRounds = 5;
 var roundCount = myRounds;
 
@@ -69,27 +71,10 @@ function renderProducts() {
   }
 }
 
-new Product('bag');
-new Product('banana');
-new Product('bathroom');
-new Product('boots');
-new Product('breakfast');
-new Product('bubblegum');
-new Product('chair');
-new Product('cthulhu');
-new Product('dog-duck');
-new Product('dragon');
-new Product('pen');
-new Product('pet-sweep');
-new Product('scissors');
-new Product('shark');
-new Product('sweep');
-new Product('tauntaun');
-new Product('unicorn');
-new Product('usb');
-new Product('water-can');
-new Product('wine-glass');
-
+for (var i = 0; i < productArray.length; i++) {
+  new Product(productArray[i]);
+}
+//Handle Screen Click
 function handleClick() {
   var chosenImage = event.target.title;
   console.log('chosenImage: ',chosenImage);
@@ -120,4 +105,5 @@ function handleClick() {
 
 containerEl.addEventListener('click', handleClick);
 
+//Render first round
 renderProducts();

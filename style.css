@@ -5,11 +5,16 @@ body {
 }
 section#image_container {
     white-space: nowrap;
+    float: right;
 }
 section#image_container img {
     display: inline-block;
-    width: 30%;
+    width: 25%;
 } 
+#tally {
+    float: left;
+    width: 25%;
+}
 #tally div {
     font-weight: bolder;
 }
