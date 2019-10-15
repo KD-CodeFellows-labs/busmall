@@ -32,6 +32,10 @@ function makeRandom() {
   return Math.floor(Math.random() * allProducts.length);
 }
 
+// function uniqueArrayGenerator() {
+//   while(Product.)
+// }
+
 function renderProducts() {
   var uniqueArray = [];
   uniqueArray[0] = makeRandom();
@@ -66,6 +70,7 @@ function renderProducts() {
   rightImageEl.name = allProducts[uniqueArray[2]].name;
   rightImageEl.title = allProducts[uniqueArray[2]].name;
   // Build list
+  addElement('div',`This is round ${roundCount}`,tallyListEl);
   for ( var i = 0; i < allProducts.length; i++) {
     addElement('li',`${allProducts[i].name}: views=${allProducts[i].views} : votes=${allProducts[i].votes}`,tallyListEl);
   }
