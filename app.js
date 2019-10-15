@@ -7,9 +7,10 @@ var containerEl = document.getElementById('image_container');
 var tallyListEl = document.getElementById('tally');
 
 Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
-
-var myRounds = 25;
+var allProducts = [];
+var myRounds = 5;
 var roundCount = myRounds;
+Product.uniqueArray = [];
 
 function addElement(childElType, childContent, parentEl) {
   var childElement = document.createElement(childElType);
@@ -17,8 +18,6 @@ function addElement(childElType, childContent, parentEl) {
   parentEl.appendChild(childElement);
   return childElement;
 }
-
-var allProducts = [];
 
 function Product(name) {
   this.name = name;
@@ -32,9 +31,16 @@ function makeRandom() {
   return Math.floor(Math.random() * allProducts.length);
 }
 
-// function uniqueArrayGenerator() {
-//   while(Product.)
-// }
+function uniqueArrayGenerator() {
+  while(Product.uniqueArray.length < 6) {
+    var random = makeRandom();
+    while(!Product.uniqueArray.includes(random)) {
+      console.log('building uniqueArray: ',Product.uniqueArray);
+      Product.uniqueArray.push(random);
+    }
+  }
+  console.log('uniqueArray completed: ',Product.uniqueArray);
+}
 
 function renderProducts() {
   var uniqueArray = [];
