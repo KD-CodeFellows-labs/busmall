@@ -1,8 +1,14 @@
 'use strict';
 
+// Product.pics = [
+//   document.getElementById('left'), //index 0
+//   document.getElementById('middle'), // index 1
+//   document.getElementById('right') // index 2
+// ];
 var leftImageEl = document.getElementById('left');
 var middleImageEl = document.getElementById('middle');
 var rightImageEl = document.getElementById('right');
+
 var containerEl = document.getElementById('image_container');
 var tallyListEl = document.getElementById('tally');
 
@@ -10,7 +16,7 @@ Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dr
 var allProducts = [];
 var myRounds = 5;
 var roundCount = myRounds;
-Product.uniqueArray = [];
+Product.uniqueRoundArray = [];
 
 function addElement(childElType, childContent, parentEl) {
   var childElement = document.createElement(childElType);
@@ -32,33 +38,26 @@ function makeRandom() {
 }
 
 function uniqueArrayGenerator() {
-  while(Product.uniqueArray.length < 6) {
+  //Create an array of 6 unique values
+  while(Product.uniqueRoundArray.length < 6) {
     var random = makeRandom();
-    while(!Product.uniqueArray.includes(random)) {
-      console.log('building uniqueArray: ',Product.uniqueArray);
-      Product.uniqueArray.push(random);
+    while(!Product.uniqueRoundArray.includes(random)) {
+      console.log('building uniqueArray: ',Product.uniqueRoundArray);
+      Product.uniqueRoundArray.push(random);
     }
   }
-  console.log('uniqueArray completed: ',Product.uniqueArray);
+  console.log('uniqueArray completed: ',Product.uniqueRoundArray);
 }
 
 function renderProducts() {
   var uniqueArray = [];
-  uniqueArray[0] = makeRandom();
-  uniqueArray[1] = makeRandom();
-  uniqueArray[2] = makeRandom();
 
-  while( uniqueArray[0] === uniqueArray[1] ) {
-    console.error('dup found 0=1 rerolling!');
-    uniqueArray[1] = makeRandom();
-  }
-  while( uniqueArray[1] === uniqueArray[2] ) {
-    console.error('dup found 1=2 rerolling!');
-    uniqueArray[2] = makeRandom();
-  }
-  while( uniqueArray[2] === uniqueArray[0] ) {
-    console.error('dup found 2=0 rerolling!');
-    uniqueArray[0] = makeRandom();
+  uniqueArrayGenerator();
+
+  for( var i =0; i < Product.uniqueRoundArray.length; i++) {
+    var temp = Product.uniqueRoundArray.shift();
+    console.log('temp is: ',temp);
+    uniqueArray[i] = temp;
   }
 
   allProducts[uniqueArray[0]].views++;
@@ -75,16 +74,18 @@ function renderProducts() {
   rightImageEl.src = allProducts[uniqueArray[2]].path;
   rightImageEl.name = allProducts[uniqueArray[2]].name;
   rightImageEl.title = allProducts[uniqueArray[2]].name;
+
   // Build list
   addElement('div',`This is round ${roundCount}`,tallyListEl);
-  for ( var i = 0; i < allProducts.length; i++) {
-    addElement('li',`${allProducts[i].name}: views=${allProducts[i].views} : votes=${allProducts[i].votes}`,tallyListEl);
+  for ( var v = 0; v < allProducts.length; v++) {
+    addElement('li',`${allProducts[v].name}: views=${allProducts[v].views} : votes=${allProducts[v].votes}`,tallyListEl);
   }
 }
 
 for (var i = 0; i < Product.productArray.length; i++) {
   new Product(Product.productArray[i]);
 }
+
 //Handle Screen Click
 function handleClick() {
   var chosenImage = event.target.title;
