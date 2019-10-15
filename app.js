@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 'use strict';
 
 // Product.pics = [
@@ -17,6 +18,25 @@ var allProducts = [];
 var myRounds = 5;
 var roundCount = myRounds;
 Product.uniqueRoundArray = [];
+
+// Chart JS testing
+var barData = {
+  labels : ['Jan','Feb','Mar','Apr','May','Jun'],
+  datasets : [
+    {
+      fillColor : '#48A497',
+      strokeColor : '#48A4D1',
+      data : [456,479,324,569,702,600]
+    },
+    {
+      fillColor : 'rgba(73,188,170,0.4)',
+      strokeColor : 'rgba(72,174,209,0.4)',
+      data : [364,504,605,400,345,320]
+    }
+  ]
+};
+// var income = document.getElementById('income').getContext('2d');
+// new Chart(income).Bar(barData);
 
 function addElement(childElType, childContent, parentEl) {
   var childElement = document.createElement(childElType);
@@ -106,8 +126,10 @@ function handleClick() {
     for ( var x = 0; x < allProducts.length; x++) {
       addElement('li',`${allProducts[x].name}: views=${allProducts[x].views} : votes=${allProducts[x].votes}`,tallyListEl);
     }
+    // var income = document.getElementById('income').getContext('2d');
+    // new Chart(income).Bar(barData);
   }
-  //
+  // re render the tally list and start next round
   if (roundCount > 0) {
     select = document.querySelector('#tally');
     select.innerHTML = '';
