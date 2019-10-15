@@ -6,7 +6,7 @@ var rightImageEl = document.getElementById('right');
 var containerEl = document.getElementById('image_container');
 var tallyListEl = document.getElementById('tally');
 
-var productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
+Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
 
 var myRounds = 25;
 var roundCount = myRounds;
@@ -76,8 +76,8 @@ function renderProducts() {
   }
 }
 
-for (var i = 0; i < productArray.length; i++) {
-  new Product(productArray[i]);
+for (var i = 0; i < Product.productArray.length; i++) {
+  new Product(Product.productArray[i]);
 }
 //Handle Screen Click
 function handleClick() {
