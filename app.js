@@ -9,8 +9,9 @@ var tallyListEl = document.getElementById('tally');
 
 Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
 var allProducts = [];
-var myRounds = 25;
+var myRounds = 10;
 var roundCount = myRounds;
+var storageName = 'storedProducts';
 Product.uniqueRoundArray = [];
 
 Product.nameData = [];
@@ -30,40 +31,57 @@ function makeRandom() {
 }
 //Create an array of 6 unique values
 function uniqueArrayGenerator() {
-  
+
   while(Product.uniqueRoundArray.length < 6) {
     var random = makeRandom();
     while(!Product.uniqueRoundArray.includes(random)) {
-      console.log('building uniqueArray: ',Product.uniqueRoundArray);
+      // console.log('building uniqueArray: ',Product.uniqueRoundArray);
       Product.uniqueRoundArray.push(random);
     }
   }
-  console.log('uniqueArray completed: ',Product.uniqueRoundArray);
+  // console.log('uniqueArray completed: ',Product.uniqueRoundArray);
 }
 //Main functions and objects ----------------------------------
 //Constructor function for products
-function Product(name) {
+function Product(name,views) {
   this.name = name;
   this.path = `img/${name}.jpg`;
   this.views = 0;
   this.votes = 0;
   allProducts.push(this);
 }
-//**** Prototype functions ****/
-function addProductsToStorage() {
-  var storageName = 'allProducts';
-  if (localStorage.getItem(storageName)) {
-    console.log(`localStoraged named ${storageName} exists`);
+//**** LocalStorage functions ****/
+function addproductsStorage() {
+  if (localStorage.storedProducts) {
+    console.log(`localStoraged item named ${storageName} exists`);
+  } else {
+    //Stringifiy the data
+    var allProductsStringified = JSON.stringify(allProducts);
+    //Store data in localStor
+    localStorage.setItem(storageName,allProductsStringified);
+    //Getting data in localStor
+    var storageAllProducts = localStorage.getItem(storageName);
+    //parse data from get
+    var parsedAllProducts = JSON.parse(storageAllProducts);
+    console.log(parsedAllProducts);
+    return parsedAllProducts;
   }
-  //Stringifiy the data
-  var allProductsStringified = JSON.stringify(allProducts);
-  //Store data in localStor
-  localStorage.setItem(storageName,allProductsStringified);
-  //Getting data in localStor
-  var storageAllProducts = localStorage.getItem(storageName);
-  //parse data from get
-  var parsedAllProducts = JSON.parse(storageAllProducts);
-  console.log(parsedAllProducts);
+}
+function getProductsFromStorage() {
+  if (localStorage.storedProducts) {
+    console.log(`localStoraged item named ${storageName} exists`);
+  } else {
+    //Stringifiy the data
+    var allProductsStringified = JSON.stringify(allProducts);
+    //Store data in localStor
+    localStorage.setItem(storageName,allProductsStringified);
+    //Getting data in localStor
+    var storageAllProducts = localStorage.getItem(storageName);
+    //parse data from get
+    var parsedAllProducts = JSON.parse(storageAllProducts);
+    console.log(parsedAllProducts);
+    return parsedAllProducts;
+  }
 }
 
 
@@ -76,7 +94,7 @@ function renderProducts() {
 
   for( var i =0; i < Product.uniqueRoundArray.length; i++) {
     var temp = Product.uniqueRoundArray.shift();
-    console.log('temp is: ',temp);
+    // console.log('temp is: ',temp);
     uniqueArray[i] = temp;
   }
 
@@ -96,7 +114,7 @@ function renderProducts() {
   rightImageEl.title = allProducts[uniqueArray[2]].name;
 
   //Add to local storage AllProducts
-  addProductsToStorage();
+  // ProductsStorage();
 
   // Build tally list
   addElement('div',`This is round ${roundCount}`,tallyListEl);
@@ -106,14 +124,30 @@ function renderProducts() {
 }
 
 //Creates the Product objects
+// function createProductsObjects() {
+//   if (!localStorage.storedProducts) {
+//     for (var i = 0; i < Product.productArray.length; i++) {
+//       new Product(Product.productArray[i]);
+//     }
+//     addproductsStorage();
+//     console.log('no storage');
+//   } else {
+//     for (i = 0; i < localStorage.storedProducts.length; i++) {
+//       var getStoredProduct = getProductsFromStorage();
+//       new Product(getStoredProduct[i].name,getStoredProduct[i].views,getStoredProduct[i].votes);
+//     }
+//     console.log('storage exist');
+//   }
+// }
 for (var i = 0; i < Product.productArray.length; i++) {
-  new Product(Product.productArray[i]);
+  new Product(Product.productArray[i],0);
 }
+// createProductsObjects();
 
 //Handle Screen Click
 function handleClick() {
   var chosenImage = event.target.title;
-  console.log('chosenImage: ',chosenImage);
+  // console.log('chosenImage: ',chosenImage);
   for( var i = 0; i < allProducts.length; i++) {
     if(allProducts[i].name === chosenImage) {
       allProducts[i].votes++;
@@ -141,7 +175,7 @@ function handleClick() {
     renderProducts();
   }
 }
-
+// add results to array
 var runChart = function() {
   for (var n = 0;n < allProducts.length;n++) {
     Product.nameData[n] = allProducts[n].name;
