@@ -40,7 +40,7 @@ function uniqueArrayGenerator() {
   }
   console.log('uniqueArray completed: ',Product.uniqueRoundArray);
 }
-
+//Main functions and objects ----------------------------------
 //Constructor function for products
 function Product(name) {
   this.name = name;
@@ -49,11 +49,29 @@ function Product(name) {
   this.votes = 0;
   allProducts.push(this);
 }
+//**** Prototype functions ****/
+function addProductsToStorage() {
+  var storageName = 'allProducts';
+  if (localStorage.getItem(storageName)) {
+    console.log(`localStoraged named ${storageName} exists`);
+  }
+  //Stringifiy the data
+  var allProductsStringified = JSON.stringify(allProducts);
+  //Store data in localStor
+  localStorage.setItem(storageName,allProductsStringified);
+  //Getting data in localStor
+  var storageAllProducts = localStorage.getItem(storageName);
+  //parse data from get
+  var parsedAllProducts = JSON.parse(storageAllProducts);
+  console.log(parsedAllProducts);
+}
+
 
 //Renders the images to the page
 function renderProducts() {
   var uniqueArray = [];
 
+  //Create unique array of 6 numbers
   uniqueArrayGenerator();
 
   for( var i =0; i < Product.uniqueRoundArray.length; i++) {
@@ -77,7 +95,10 @@ function renderProducts() {
   rightImageEl.name = allProducts[uniqueArray[2]].name;
   rightImageEl.title = allProducts[uniqueArray[2]].name;
 
-  // Build list
+  //Add to local storage AllProducts
+  addProductsToStorage();
+
+  // Build tally list
   addElement('div',`This is round ${roundCount}`,tallyListEl);
   for ( var v = 0; v < allProducts.length; v++) {
     addElement('li',`${allProducts[v].name}: views=${allProducts[v].views} : votes=${allProducts[v].votes}`,tallyListEl);
@@ -128,7 +149,7 @@ var runChart = function() {
   }
 };
 
-// Render Chart
+//Render Chart
 var makeChart = function() {
   runChart();
   var ctx = document.getElementById('barData').getContext('2d');
@@ -144,16 +165,8 @@ var makeChart = function() {
         borderWidth: 1
       }]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
+    options: {responsive: true ,maintainAspectRatio: false,
+      scales: {yAxes: [{ticks: {beginAtZero: true}}]}
     }
   });
 };
