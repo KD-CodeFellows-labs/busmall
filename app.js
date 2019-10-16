@@ -1,11 +1,5 @@
-/* eslint-disable quotes */
 'use strict';
-
-// Product.pics = [
-//   document.getElementById('left'), //index 0
-//   document.getElementById('middle'), // index 1
-//   document.getElementById('right') // index 2
-// ];
+// Global Variables -------------------------------
 var leftImageEl = document.getElementById('left');
 var middleImageEl = document.getElementById('middle');
 var rightImageEl = document.getElementById('right');
@@ -15,29 +9,14 @@ var tallyListEl = document.getElementById('tally');
 
 Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
 var allProducts = [];
-var myRounds = 5;
+var myRounds = 10;
 var roundCount = myRounds;
 Product.uniqueRoundArray = [];
 
-// Chart JS testing
-var barData = {
-  labels : ['Jan','Feb','Mar','Apr','May','Jun'],
-  datasets : [
-    {
-      fillColor : '#48A497',
-      strokeColor : '#48A4D1',
-      data : [456,479,324,569,702,600]
-    },
-    {
-      fillColor : 'rgba(73,188,170,0.4)',
-      strokeColor : 'rgba(72,174,209,0.4)',
-      data : [364,504,605,400,345,320]
-    }
-  ]
-};
-// var income = document.getElementById('income').getContext('2d');
-// new Chart(income).Bar(barData);
+Product.nameData = [];
+Product.voteData = [];
 
+// Helper Functions ------------------------------------------
 function addElement(childElType, childContent, parentEl) {
   var childElement = document.createElement(childElType);
   childElement.textContent = childContent;
@@ -115,27 +94,68 @@ function handleClick() {
       allProducts[i].votes++;
     }
   }
+  //document.querySelector('#chartCanvas').chart.style.display = 'none';
   roundCount--;
   if (roundCount <= 0) {
     //Build end list
     var select = document.querySelector('#tally');
     select.innerHTML = '';
     var image = document.querySelector('#image_container');
-    image.innerHTML = '';
+    image.style.display = 'none';
+    document.querySelector('#instructions').remove();
+    // document.querySelector('#tally').remove();
+    containerEl.removeEventListener;
     addElement('div',`Results after ${myRounds} rounds:`,tallyListEl);
     for ( var x = 0; x < allProducts.length; x++) {
       addElement('li',`${allProducts[x].name}: views=${allProducts[x].views} : votes=${allProducts[x].votes}`,tallyListEl);
     }
-    // var income = document.getElementById('income').getContext('2d');
-    // new Chart(income).Bar(barData);
+    makeChart();
   }
   // re render the tally list and start next round
   if (roundCount > 0) {
-    select = document.querySelector('#tally');
+    var select = document.querySelector('#tally');
     select.innerHTML = '';
     renderProducts();
   }
 }
+
+var runChart = function() {
+  for (var n = 0;n < allProducts.length;n++) {
+    Product.nameData[n] = allProducts[n].name;
+    Product.voteData[n] = allProducts[n].votes;
+  }
+};
+
+// Render Chart
+
+var makeChart = function() {
+  runChart();
+  var ctx = document.getElementById('barData').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Product.nameData,
+      datasets: [{
+        label: '# of Votes',
+        data: Product.voteData,
+        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        borderColor: 'rgba(255, 159, 64, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+};
 
 containerEl.addEventListener('click', handleClick);
 
