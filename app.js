@@ -17,27 +17,20 @@ Product.nameData = [];
 Product.voteData = [];
 
 // Helper Functions ------------------------------------------
+//Add elements to the DOM
 function addElement(childElType, childContent, parentEl) {
   var childElement = document.createElement(childElType);
   childElement.textContent = childContent;
   parentEl.appendChild(childElement);
   return childElement;
 }
-
-function Product(name) {
-  this.name = name;
-  this.path = `img/${name}.jpg`;
-  this.views = 0;
-  this.votes = 0;
-  allProducts.push(this);
-}
-
+// Makes the random number
 function makeRandom() {
   return Math.floor(Math.random() * allProducts.length);
 }
-
+//Create an array of 6 unique values
 function uniqueArrayGenerator() {
-  //Create an array of 6 unique values
+  
   while(Product.uniqueRoundArray.length < 6) {
     var random = makeRandom();
     while(!Product.uniqueRoundArray.includes(random)) {
@@ -48,6 +41,16 @@ function uniqueArrayGenerator() {
   console.log('uniqueArray completed: ',Product.uniqueRoundArray);
 }
 
+//Constructor function for products
+function Product(name) {
+  this.name = name;
+  this.path = `img/${name}.jpg`;
+  this.views = 0;
+  this.votes = 0;
+  allProducts.push(this);
+}
+
+//Renders the images to the page
 function renderProducts() {
   var uniqueArray = [];
 
@@ -81,6 +84,7 @@ function renderProducts() {
   }
 }
 
+//Creates the Product objects
 for (var i = 0; i < Product.productArray.length; i++) {
   new Product(Product.productArray[i]);
 }
@@ -94,7 +98,6 @@ function handleClick() {
       allProducts[i].votes++;
     }
   }
-  //document.querySelector('#chartCanvas').chart.style.display = 'none';
   roundCount--;
   if (roundCount <= 0) {
     //Build end list
@@ -103,8 +106,7 @@ function handleClick() {
     var image = document.querySelector('#image_container');
     image.style.display = 'none';
     document.querySelector('#instructions').remove();
-    // document.querySelector('#tally').remove();
-    containerEl.removeEventListener;
+    containerEl.removeEventListener('click', handleClick);
     addElement('div',`Results after ${myRounds} rounds:`,tallyListEl);
     for ( var x = 0; x < allProducts.length; x++) {
       addElement('li',`${allProducts[x].name}: views=${allProducts[x].views} : votes=${allProducts[x].votes}`,tallyListEl);
@@ -113,7 +115,7 @@ function handleClick() {
   }
   // re render the tally list and start next round
   if (roundCount > 0) {
-    var select = document.querySelector('#tally');
+    select = document.querySelector('#tally');
     select.innerHTML = '';
     renderProducts();
   }
@@ -127,7 +129,6 @@ var runChart = function() {
 };
 
 // Render Chart
-
 var makeChart = function() {
   runChart();
   var ctx = document.getElementById('barData').getContext('2d');
@@ -157,6 +158,7 @@ var makeChart = function() {
   });
 };
 
+//Add event listener to container
 containerEl.addEventListener('click', handleClick);
 
 //Render first round

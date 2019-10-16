@@ -48,8 +48,9 @@ section#chartCanvas {
     float: left;
     width: 180px;
     height: 420px;
-    border: 2px solid blue;
+    border: 2px solid black;
     font-size: 12px;
+    border-radius: 5px;
 }
 #tally div {
     font-weight: bolder;
