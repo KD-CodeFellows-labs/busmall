@@ -9,7 +9,7 @@ var tallyListEl = document.getElementById('tally');
 
 Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
 var allProducts = [];
-var myRounds = 5;
+var myRounds = 25;
 var roundCount = myRounds;
 var storageName = 'storedProducts';
 Product.uniqueRoundArray = [];
