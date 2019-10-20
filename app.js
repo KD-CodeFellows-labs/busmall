@@ -9,7 +9,7 @@ var tallyListEl = document.getElementById('tally');
 
 Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
 var allProducts = [];
-var myRounds = 25;
+var myRounds = 5;
 var roundCount = myRounds;
 var storageName = 'storedProducts';
 Product.uniqueRoundArray = [];
@@ -60,6 +60,7 @@ function setLocalStorage() {
   var terrelsBasementStringified = JSON.stringify(allProducts);
   //storing 'data' into local storage
   localStorage.setItem(storageName, terrelsBasementStringified);
+  console.log('allproducts',allProducts);
 }
 
 //Renders the images to the page
@@ -120,9 +121,9 @@ function createProductsObjects() {
   }
 }
 
-createProductsObjects();
 
-//Handle Screen Click
+
+//Handle Screen Click on Images
 function handleClick() {
   var chosenImage = event.target.title;
   for( var i = 0; i < allProducts.length; i++) {
@@ -146,6 +147,7 @@ function handleClick() {
     for ( var x = 0; x < allProducts.length; x++) {
       addElement('li',`${allProducts[x].name}: views=${allProducts[x].views} : votes=${allProducts[x].votes}`,tallyListEl);
     }
+    // Results into local storage
     setLocalStorage();
     makeChart();
   }
@@ -159,11 +161,11 @@ function handleClick() {
 
 //Render Chart
 var makeChart = function() {
-  // add results to array
+  // add results to array for chart
   for (var n = 0;n < allProducts.length;n++) {
     Product.nameData[n] = allProducts[n].name;
-    Product.voteData[n] = Product.localStore[n].votes;
-    console.log(allProducts[n].name,Product.localStore[n].votes);
+    Product.voteData[n] = allProducts[n].votes;
+    // console.log(allProducts[n].name,allProducts[n].votes);
   }
   var ctx = document.getElementById('barData').getContext('2d');
   var myChart = new Chart(ctx, {
@@ -183,6 +185,9 @@ var makeChart = function() {
     }
   });
 };
+
+// Check for local storage
+createProductsObjects();
 
 //Add event listener to container
 containerEl.addEventListener('click', handleClick);
