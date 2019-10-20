@@ -58,14 +58,14 @@ section#chartCanvas {
 #instructions {
     position: absolute;
     margin-left: 220px;
-    bottom: 10px;
+    bottom: 5px;
 }
 #instructions p {
     width: 700px;
     padding: 10px;
     margin-left: 20px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 16px;
 }
 footer {
     background-color: black;
