@@ -9,17 +9,32 @@ main {
 }
 header {
     height: 50px;
+    padding-top: 2px;
     background-color: black;
     color: whitesmoke;
 }
+/* Slant technique from https://stackoverflow.com/questions/7999015/adding-more-slant-to-italic-text */
 header h1 {
     font-family: 'Alfa Slab One', cursive;
     font-size: 40px;
     padding: 5px;
+    margin-left: 5px;
     float: left;
+    transform: scale(1) rotate(0deg) translate(0px, 0px) skew(-30deg, 0deg);
 }
 header h2 {
-    padding: 5px;
+    display: inline;
+    padding: 25px;
+}
+header div {
+    float: right;
+    margin-right: 20px;
+    height: 40px;
+    width: 40px;
+    transform: scale(1) rotate(0deg) translate(0px, 0px) skew(-30deg, 0deg);
+}
+header>div>img {
+    filter: invert(100%);
 }
 section#image_container {
     position: absolute;
@@ -58,14 +73,14 @@ section#chartCanvas {
 #instructions {
     position: absolute;
     margin-left: 220px;
-    bottom: 10px;
+    bottom: 5px;
 }
 #instructions p {
     width: 700px;
     padding: 10px;
     margin-left: 20px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 16px;
 }
 footer {
     background-color: black;

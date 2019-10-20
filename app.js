@@ -1,19 +1,21 @@
 'use strict';
-// Global Variables -------------------------------
+// Global Variables -----------------------------------------
+// Images document object on page
 var leftImageEl = document.getElementById('left');
 var middleImageEl = document.getElementById('middle');
 var rightImageEl = document.getElementById('right');
-
+// overall element document objects
 var containerEl = document.getElementById('image_container');
 var tallyListEl = document.getElementById('tally');
-
+// array of image names for creating objects
 Product.productArray = ['breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'];
+// general variables
 var allProducts = [];
-var myRounds = 5;
+var myRounds = 25;
 var roundCount = myRounds;
 var storageName = 'storedProducts';
 Product.uniqueRoundArray = [];
-
+// Chart variables
 Product.nameData = [];
 Product.voteData = [];
 //Local storage array in parsed format
@@ -40,8 +42,10 @@ function uniqueArrayGenerator() {
     }
   }
 }
+
 //Main functions and objects ----------------------------------
-//Constructor function for products
+
+//Constructor function for products ---------------------------
 function Product(name) {
   this.name = name;
   this.path = `img/${name}.jpg`;
@@ -49,13 +53,15 @@ function Product(name) {
   this.votes = 0;
   allProducts.push(this);
 }
-//**** LocalStorage functions ****/
+//**** LocalStorage functions ---------------------------------
+// get data from local storage and return it
 function getParsedStorage() {
   var storageTerrelsBasement = localStorage.getItem(storageName);
   //parsing TerrelsBasement
   var parsedTerrelsBasement = JSON.parse(storageTerrelsBasement);
   return parsedTerrelsBasement;
 }
+// set localstorage from all product array
 function setLocalStorage() {
   var terrelsBasementStringified = JSON.stringify(allProducts);
   //storing 'data' into local storage
@@ -63,19 +69,19 @@ function setLocalStorage() {
   console.log('allproducts',allProducts);
 }
 
-//Renders the images to the page
+//Renders the images to the page --------------------------------
 function renderProducts() {
   var uniqueArray = [];
 
   //Create unique array of 6 numbers
   uniqueArrayGenerator();
-
+  //Take array of 6 numbers and use to select images
   for( var i =0; i < Product.uniqueRoundArray.length; i++) {
     var temp = Product.uniqueRoundArray.shift();
     // console.log('temp is: ',temp);
     uniqueArray[i] = temp;
   }
-
+  //Set images to document objects and count views
   allProducts[uniqueArray[0]].views++;
   leftImageEl.src = allProducts[uniqueArray[0]].path;
   leftImageEl.name = allProducts[uniqueArray[0]].name;
@@ -91,9 +97,7 @@ function renderProducts() {
   rightImageEl.name = allProducts[uniqueArray[2]].name;
   rightImageEl.title = allProducts[uniqueArray[2]].name;
 
-  //Add to local storage AllProducts
-
-  // Build tally list
+  // Build tally list with round count and count of images
   addElement('div',`This is round ${roundCount}`,tallyListEl);
   for ( var v = 0; v < allProducts.length; v++) {
     addElement('li',`${allProducts[v].name}: views=${allProducts[v].views} : votes=${allProducts[v].votes}`,tallyListEl);
@@ -121,9 +125,7 @@ function createProductsObjects() {
   }
 }
 
-
-
-//Handle Screen Click on Images
+//Handle Screen Click on Images -------------------------------
 function handleClick() {
   var chosenImage = event.target.title;
   for( var i = 0; i < allProducts.length; i++) {
@@ -141,6 +143,7 @@ function handleClick() {
     select.innerHTML = '';
     var image = document.querySelector('#image_container');
     image.style.display = 'none';
+    //hide elements to display chart
     document.querySelector('#instructions').remove();
     containerEl.removeEventListener('click', handleClick);
     addElement('div',`Results after ${myRounds} rounds:`,tallyListEl);
@@ -158,8 +161,7 @@ function handleClick() {
     renderProducts();
   }
 }
-
-//Render Chart
+//Render Chart ---------------------------------------------
 var makeChart = function() {
   // add results to array for chart
   for (var n = 0;n < allProducts.length;n++) {
@@ -186,6 +188,7 @@ var makeChart = function() {
   });
 };
 
+//---------------------------------------------------------
 // Check for local storage
 createProductsObjects();
 
